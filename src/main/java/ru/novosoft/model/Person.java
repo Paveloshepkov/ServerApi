@@ -3,19 +3,29 @@ package ru.novosoft.model;
 
 import java.util.List;
 
-public class User {
+public class Person {
 	private String username;
 	private String password;
+	private String role;
 
 	private List<Tasks> tasksList;
 	private List<MetrEquipItemModel> equipmentList;
 
-	public User(String username, String password, List<Tasks> tasksList,
-			List<MetrEquipItemModel> equipmentList) {
+	public Person(String username, String password, String role, List<Tasks> tasksList,
+				  List<MetrEquipItemModel> equipmentList) {
 		this.username = username;
 		this.password = password;
+		this.role = role;
 		this.tasksList = tasksList;
 		this.equipmentList = equipmentList;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public List<Tasks> getTasksList() {

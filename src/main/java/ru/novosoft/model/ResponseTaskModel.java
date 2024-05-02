@@ -4,12 +4,12 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ResponseModel {
+public class ResponseTaskModel {
 
 	@JsonProperty("tasks")
 	private List<Tasks> tasks;
 
-	public ResponseModel(List<Tasks> tasks) {
+	public ResponseTaskModel(List<Tasks> tasks) {
 		this.tasks = tasks;
 	}
 

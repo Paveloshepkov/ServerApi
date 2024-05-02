@@ -5,7 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import ru.novosoft.model.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import ru.novosoft.model.Person;
 import ru.novosoft.model.MertEquipModel.Composition;
 import ru.novosoft.model.MertEquipModel.EtalonRegNo;
 import ru.novosoft.model.MertEquipModel.GeneralInfo;
@@ -19,36 +20,46 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Generator {
-	private final List<User> users;
+	private final List<Person> people;
 
 	public Generator() {
-		users = new ArrayList<>();
-		User admin = new User("admin", "1", tasksGenerator(), equipmentGenerator());
-		User user = new User("user", "1", tasksGenerator(), equipmentGenerator());
-		users.add(admin);
-		users.add(user);
+		people = new ArrayList<>();
+		Person admin = new Person("admin", "1", "ROLE_ADMIN", tasksGenerator(),  equipmentGenerator());
+		Person person = new Person("user", "1", "ROLE_USER", tasksGenerator(), equipmentGenerator());
+		people.add(admin);
+		people.add(person);
 
 	}
 
-	public List<User> getUsers() {
-		return users;
+	public List<Person> getUsers() {
+		return people;
 	}
 
-	public User findUser(String login, String password) {
-		for (User user : users) {
-			if (user.getUsername().equals(login) && user.getPassword().equals(password)) {
-				return user;
+	public Person findUser(String login, String password) {
+		for (Person person : people) {
+			if (person.getUsername().equals(login) && person.getPassword().equals(password)) {
+				return person;
 			}
 		}
 		return null;
 	}
 
-	public List<Tasks> getUserTasks(User user) {
-		return user.getTasksList();
+
+	public Person loadUserByUsername(String username) throws UsernameNotFoundException {
+		for (Person person : people) {
+			if (person.getUsername().equals(username)) {
+				return person;
+			}
+		}
+		throw new UsernameNotFoundException("User not found with username: " + username);
 	}
 
-	public List<MetrEquipItemModel> getUserEquipment(User user) {
-		return user.getEquipmentList();
+	public List<Tasks> getUserTasks(Person person) {
+		return person.getTasksList();
+	}
+
+	public List<MetrEquipItemModel> getUserEquipment(Person person) {
+		return person.getEquipmentList();
 	}
 
 	private List<MetrEquipItemModel> equipmentGenerator() {
