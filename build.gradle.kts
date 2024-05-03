@@ -1,6 +1,7 @@
 plugins {
     id("java")
     id("war")
+    kotlin("jvm")
 }
 
 group = "ru.novosoft"
@@ -46,4 +47,7 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+kotlin {
+    jvmToolchain(8)
 }

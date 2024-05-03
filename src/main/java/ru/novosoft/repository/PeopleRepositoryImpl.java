@@ -15,7 +15,7 @@ public class PeopleRepositoryImpl implements PeopleRepository {
 
     @Autowired
     public PeopleRepositoryImpl(Generator generator) {
-        this.people = generator.getUsers(); // Инициализация списка пользователей из generator
+        this.people = generator.getUsers();
     }
 
     @Override

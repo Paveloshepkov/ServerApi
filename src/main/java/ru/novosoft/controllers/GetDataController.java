@@ -111,9 +111,9 @@ public class GetDataController {
 
             List<MetrEquipItemModel> equipment = generator.getUserEquipment(person);
 
-            ResponseEquipmentModel responseTaskModel = new ResponseEquipmentModel(equipment);
+            ResponseEquipmentModel responseEquipmentModel = new ResponseEquipmentModel(equipment);
 
-            String json = objectMapper.writeValueAsString(responseTaskModel);
+            String json = objectMapper.writeValueAsString(responseEquipmentModel);
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));

@@ -49,10 +49,9 @@ public class AuthController {
 		}
 	}
 
-	@RequestMapping(value = "/check/connection", method = RequestMethod.GET)
+	@RequestMapping(value = "/connection", method = RequestMethod.GET)
 	public ResponseEntity<?> sayHi() {
-		HttpHeaders headers = new HttpHeaders();
-		return new ResponseEntity<>(true, headers, HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
 

@@ -13,11 +13,11 @@ public class ResponseEquipmentModel {
         this.equipItemModels = equipItemModels;
     }
 
-    public List<MetrEquipItemModel> getTasks() {
+    public List<MetrEquipItemModel> getEquipItemModels() {
         return equipItemModels;
     }
 
-    public void setTasks(List<MetrEquipItemModel> equipItemModels) {
+    public void setEquipItemModels(List<MetrEquipItemModel> equipItemModels) {
         this.equipItemModels = equipItemModels;
     }
 }

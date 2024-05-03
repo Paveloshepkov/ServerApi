@@ -10,7 +10,7 @@
     <!-- Конфигурация Spring Security -->
     <security:http auto-config="true" use-expressions="true">
         <!-- Конфигурация прав доступа -->
-        <security:intercept-url pattern="/auth/login" access="permitAll" />
+        <security:intercept-url pattern="/auth" access="permitAll" />
         <security:intercept-url pattern="/get" access="permitAll" />
 
         <!-- Настройка безопасности сессии -->
@@ -23,7 +23,7 @@
 
     <!-- Настройка аутентификации -->
     <security:authentication-manager>
-        <security:authentication-provider person-service-ref="personDetailsService">
+        <security:authentication-provider user-service-ref="personDetailsService">
         </security:authentication-provider>
     </security:authentication-manager>
 
