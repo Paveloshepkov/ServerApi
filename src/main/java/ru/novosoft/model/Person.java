@@ -8,16 +8,15 @@ public class Person {
 	private String password;
 	private String role;
 
-	private List<Tasks> tasksList;
 	private List<MetrEquipItemModel> equipmentList;
+	private List<Tasks> tasksList;
 
-	public Person(String username, String password, String role, List<Tasks> tasksList,
-				  List<MetrEquipItemModel> equipmentList) {
+	public Person(String username, String password, String role,List<MetrEquipItemModel> equipmentList, List<Tasks> tasksList) {
 		this.username = username;
 		this.password = password;
 		this.role = role;
-		this.tasksList = tasksList;
 		this.equipmentList = equipmentList;
+		this.tasksList = tasksList;
 	}
 
 	public String getRole() {

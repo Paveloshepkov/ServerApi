@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import ru.novosoft.model.Person;
@@ -21,11 +23,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class Generator {
 	private final List<Person> people;
+	private final Map<Integer, MetrEquipItemModel> metrEquipModels = new HashMap<>();
 
 	public Generator() {
 		people = new ArrayList<>();
-		Person admin = new Person("admin", "1", "ROLE_ADMIN", tasksGenerator(),  equipmentGenerator());
-		Person person = new Person("user", "1", "ROLE_USER", tasksGenerator(), equipmentGenerator());
+		Person admin = new Person("admin", "1", "ROLE_ADMIN", equipmentGenerator(),  tasksGenerator());
+		Person person = new Person("user", "1", "ROLE_USER", equipmentGenerator(), tasksGenerator());
 		people.add(admin);
 		people.add(person);
 
@@ -63,8 +66,8 @@ public class Generator {
 	}
 
 	private List<MetrEquipItemModel> equipmentGenerator() {
-		List<MetrEquipItemModel> metrEquipModels = new ArrayList<>();
-		for (int i = 0; i < 10; i++) {
+		List<MetrEquipItemModel> metrEquipModelsList = new ArrayList<>();
+		for (int i = 0; i < 12; i++) {
 			GeneralInfo generalInfo = generateRandomGeneralInfo();
 			OperationalInfo operationalInfo = generateRandomOperationalInfo();
 			List<MeasurementParam> measurementParams = generateRandomMeasurementParam();
@@ -80,9 +83,10 @@ public class Generator {
 					woMtlgs,
 					wo
 			);
-			metrEquipModels.add(metrEquipItemModel);
+			metrEquipModels.put(generalInfo.getId(), metrEquipItemModel);
+			metrEquipModelsList.add(metrEquipItemModel);
 		}
-		return metrEquipModels;
+		return metrEquipModelsList;
 	}
 
 	private List<Tasks> tasksGenerator() {
@@ -92,15 +96,31 @@ public class Generator {
 				"Согласование расконсервации",
 				"Завершение работ"
 		};
-		Random random = new Random();
-		for (int i = 1; i <= 10; i++) {
-			String type = types[random.nextInt(types.length)];
+		for (int i = 0; i < 3; i++) {
+			String type = types[i];
 			String time = generateRandomDateTime();
-			Tasks taskModel = new Tasks(i, type, time);
+			List<Integer> taskEquipmentIds = selectSequentialEquipmentIds();
+			Tasks taskModel = new Tasks(i, type, time, taskEquipmentIds);
 			tasksList.add(taskModel);
 		}
 		return tasksList;
 	}
+
+	private List<Integer> selectSequentialEquipmentIds() {
+		List<Integer> selectedIds = new ArrayList<>();
+		List<Integer> allIds = new ArrayList<>(metrEquipModels.keySet());
+
+		for (int i = 0; i < 4 && !allIds.isEmpty(); i++) {
+			selectedIds.add(allIds.remove(0));
+		}
+
+		for (Integer id : selectedIds) {
+			metrEquipModels.remove(id);
+		}
+
+		return selectedIds;
+	}
+
 
 	private String generateRandomDateTime() {
 		int year = 2022;
@@ -146,7 +166,7 @@ public class Generator {
 				"Rohde & Schwarz"
 		);
 		String manufacturer = manufacturers.get(random.nextInt(manufacturers.size()));
-		int id = random.nextInt();
+		int id = random.nextInt(400000 - 120000 + 1) + 120000;
 
 		return new GeneralInfo(
 				id,
